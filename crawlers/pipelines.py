@@ -10,7 +10,11 @@ from itemadapter import ItemAdapter
 
 class CrawlersPipeline:
     def process_item(self, item, spider):
-        item["titulo"] = self.string_process(item["titulo"])
+        item["Titulo"] = self.string_process(item["Titulo"])
+        item ["Dificuldade"] = self.string_process(item["Dificuldade"])
+        item["Quantidade"] = self.string_process(item["Quantidade"])
+        item["Tempo"] = self.string_process(item["Tempo"])
+        item["Categoria"] = self.string_process(item["Categoria"])
         return item
     
     def string_process(self, string):
