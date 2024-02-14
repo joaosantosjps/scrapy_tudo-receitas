@@ -1,4 +1,5 @@
 import scrapy
+from crawlers.items import CrawlersItem
 
 
 class TudoreceitasSpider(scrapy.Spider):
@@ -27,8 +28,6 @@ class TudoreceitasSpider(scrapy.Spider):
                 dont_filter=True
             )
 
-
-
     def parse_categories(self, response):
         meta = response.meta
         category = meta["category"]
@@ -39,14 +38,15 @@ class TudoreceitasSpider(scrapy.Spider):
             portion = block_product.xpath('div[@class="properties"]/span[@class="property comensales"]/text()').extract_first()
             time = block_product.xpath('div[@class="properties"]/span[@class="property duracion"]/text()').extract_first()
 
-            yield {
-                "Url": url_products,
-                "Titulo": name_products,   
-                "Dificuldade": difficulty,
-                "Quantidade": portion,
-                "Tempo": time,
-                "Categoria": category
-            }
+            yield CrawlersItem(
+                url=url_products,
+                titulo=name_products,
+                dificuldade=difficulty,
+                quantidade=portion,
+                tempo=time,
+                categoria=category              
+            )
+
         next_page = response.xpath('//a[@class="next ga"]').extract_first()
         page = meta["page"]
         url = meta["url"]
@@ -54,9 +54,3 @@ class TudoreceitasSpider(scrapy.Spider):
             page += 1
             
             yield from self.request_category(url=url, category=category, page=page)
-
-
-        
-    
-
-            

@@ -7,6 +7,19 @@ import scrapy
 
 
 class CrawlersItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    url = scrapy.Field()
+    titulo = scrapy.Field()
+    dificuldade = scrapy.Field()
+    quantidade = scrapy.Field()
+    tempo = scrapy.Field()
+    categoria = scrapy.Field()
+
+    def keys(self):
+        return [
+            "categoria",
+            "titulo",
+            "url",
+            "dificuldade",
+            "quantidade",
+            "tempo",
+        ]

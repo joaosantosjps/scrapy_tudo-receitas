@@ -6,17 +6,36 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+import os
+import csv
+from crawlers.items import CrawlersItem
 
 
 class CrawlersPipeline:
+    def open_spider(self, spider):
+        filename = f"{spider.name}.csv"
+        self.headers = CrawlersItem().keys()
+
+        if "data" not in os.listdir("crawlers/"):
+            os.mkdir("crawlers/data/")
+        
+        self.file = csv.DictWriter(
+            open(f"crawlers/data/{filename}", "w", newline="", encoding="utf-8"),
+            fieldnames=self.headers,
+            delimiter=";",
+        )
+        self.file.writeheader()
+
     def process_item(self, item, spider):
-        item["Titulo"] = self.string_process(item["Titulo"])
-        item ["Dificuldade"] = self.string_process(item["Dificuldade"])
-        item["Quantidade"] = self.string_process(item["Quantidade"])
-        item["Tempo"] = self.string_process(item["Tempo"])
-        item["Categoria"] = self.string_process(item["Categoria"])
+        for header in self.headers:
+            item[header] = self.string_process(item[header])
+        self.save_to_csv(item=item)
+        
         return item
-    
+   
+    def save_to_csv(self, item):
+        self.file.writerow(dict(item))
+
     def string_process(self, string):
         if string:
             return string.strip()
