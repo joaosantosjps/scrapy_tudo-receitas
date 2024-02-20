@@ -9,17 +9,25 @@ import scrapy
 class CrawlersItem(scrapy.Item):
     url = scrapy.Field()
     titulo = scrapy.Field()
+    autor = scrapy.Field()
     dificuldade = scrapy.Field()
     quantidade = scrapy.Field()
     tempo = scrapy.Field()
     categoria = scrapy.Field()
+    description = scrapy.Field()
+    ingredinets = scrapy.Field()
+    preparation = scrapy.Field()
 
     def keys(self):
         return [
+            "url",
+            "autor",
             "categoria",
             "titulo",
-            "url",
             "dificuldade",
-            "quantidade",
             "tempo",
+            "quantidade",
+            "description",
+            "ingredinets",
+            "preparation",
         ]

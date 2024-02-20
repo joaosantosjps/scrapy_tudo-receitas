@@ -35,7 +35,10 @@ class CrawlersPipeline:
     def save_to_csv(self, item):
         self.file.writerow(dict(item))
 
-    def string_process(self, string):
-        if string:
-            return string.strip()
-        return None
+    def string_process(self, itens):
+        if itens and isinstance(itens, str):
+            return itens.strip()
+        elif itens and isinstance(itens, list):
+            return ",".join(itens)
+        else:
+            return itens
